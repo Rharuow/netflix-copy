@@ -2,6 +2,16 @@
   transition: all 0.8s;
 }
 
+@each $key, $color in $colors {
+  .text-#{$key} {
+    color: $color !important;
+  }
+
+  .text-#{$key}-hover:hover {
+    color: $color !important;
+  }
+}
+
 .text-yellow-hover:hover {
   color: $yellow;
 }

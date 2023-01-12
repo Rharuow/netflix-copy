@@ -7,6 +7,11 @@ body {
   text-decoration: none;
 }
 
+a {
+  text-decoration: none !important;
+  color: $white;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
@@ -20,11 +25,11 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $primary;
+  background: $danger;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $primary;
+  background: $secondary;
 }
