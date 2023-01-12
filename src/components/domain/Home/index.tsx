@@ -44,7 +44,7 @@ const Home: React.FC = () => {
                   }
                   alt="thumbnail"
                   width={150}
-                  height={90}
+                  height={150}
                 />
               </div>
             ))}
