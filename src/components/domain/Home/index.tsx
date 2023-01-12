@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { Carousel } from "react-responsive-carousel";
+import { useWindowSize } from "../../../Hooks/windowsize";
 
 import { api } from "../../../service/api";
 
@@ -13,6 +14,10 @@ const Home: React.FC = () => {
   );
 
   const [loadingUpComing, setLoadingUpComing] = useState(true);
+
+  const { isTablet, isMobile } = useWindowSize();
+
+  const displayCarousel = isTablet ? 2 : isMobile ? 1 : 4;
 
   useEffect(() => {
     api.get("/movie/upcoming").then((res) => {
@@ -33,7 +38,7 @@ const Home: React.FC = () => {
           <Carousel
             showIndicators={false}
             centerMode
-            centerSlidePercentage={100 / 4}
+            centerSlidePercentage={100 / displayCarousel}
           >
             {moviesUpComing.map((movie) => (
               <div key={movie?.id} className="me-5px">
