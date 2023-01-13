@@ -20,6 +20,10 @@
   transition: transform 0.8s;
 }
 
+.transform-size-hover:hover {
+  transform: scale(1.2);
+}
+
 @for $i from 1 through 500 {
   .transform-translate-top-#{$i}px:hover {
     transform: translateY(-#{$i}px);
