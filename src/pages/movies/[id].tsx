@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import ReactLoading from "react-loading";
-import MovieSHow from "../../components/domain/Movie/Show";
+import MovieSHow from "../../components/domain/Movies/Show";
 
 const MoviePage = () => {
   const {
