@@ -10,7 +10,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="me-3 fw-bold">
-        <Link href="#" className="text-gray-600-hover">
+        <Link href="/most-popular" className="text-gray-600-hover">
           Populares
         </Link>
       </div>

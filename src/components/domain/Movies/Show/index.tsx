@@ -20,10 +20,13 @@ const MovieSHow: React.FC<{ id: number }> = ({ id }) => {
       </div>
       <Image
         style={{ objectFit: "contain" }}
-        src="/blur.jpeg"
-        loader={() =>
-          `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie?.poster_path}`
-        }
+        src="/blur-poster.jpg"
+        {...(movie && movie.poster_path
+          ? {
+              loader: () =>
+                `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie?.poster_path}`,
+            }
+          : {})}
         alt="thumbnail"
         width={409}
         height={602}

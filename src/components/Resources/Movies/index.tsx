@@ -3,16 +3,12 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { Carousel } from "react-responsive-carousel";
+import TextTruncate from "react-text-truncate";
 
 import { useWindowSize } from "../../../Hooks/windowsize";
 import { api } from "../../../service/api";
 import { IMovie, IMovies } from "../../../types/movies";
-import TextTruncate from "react-text-truncate";
-
-type IShowInfoMovies = Array<{
-  id: number;
-  status: boolean;
-} | null>;
+import { IShowInfoMovies } from "./movies";
 
 const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
   endPoint = "/movie/upcoming",
@@ -135,9 +131,6 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
                               `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie?.backdrop_path}`,
                           }
                         : {})}
-                      // loader={() =>
-                      //   `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie?.backdrop_path}`
-                      // }
                       alt="thumbnail"
                       width={120}
                       priority

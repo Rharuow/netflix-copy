@@ -9,13 +9,13 @@ const Home: React.FC = () => {
 
   return (
     <div className="p-3 max-w-100vw">
-      <div className="mb-2">
+      <div className="mb-3">
         <UpComing />
       </div>
 
       {genres.length > 0 &&
         genres.map((genre) => (
-          <div key={genre?.id} className="mb-2">
+          <div key={genre?.id} className="mb-3">
             <MoviesByGenre title={genre?.name} genre_id={genre?.id} />
           </div>
         ))}
