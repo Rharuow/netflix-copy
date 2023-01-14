@@ -4,7 +4,7 @@ import Navbar from "../Navbar";
 
 const Topbar = () => {
   return (
-    <div className="d-flex px-4">
+    <div className="d-flex px-4 shadow-lg">
       <div className="me-3">
         <Image
           alt="Logo"

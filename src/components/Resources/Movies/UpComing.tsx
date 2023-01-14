@@ -6,31 +6,26 @@ import { api } from "../../../service/api";
 import { IMovie, IMovies } from "../../../types/movies";
 import TextTruncate from "react-text-truncate";
 import ReactLoading from "react-loading";
+import { useRouter } from "next/router";
 
-type IShowInfoMoviesUpComing = Array<{
+type IShowInfoMovies = Array<{
   id: number;
   status: boolean;
 } | null>;
 
-const UpComing = () => {
-  const [moviesUpComing, setMoviesUpComing] = useState<Array<null> | IMovies>(
-    []
-  );
+const MoviesUpComing = () => {
+  const [movies, setMovies] = useState<Array<null> | IMovies>([]);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
-  const [showInfoMoviesUpComing, setShowInfoMoviesUpComing] =
-    useState<IShowInfoMoviesUpComing>([]);
-  const [loadingUpComing, setLoadingUpComing] = useState(true);
+  const [showInfoMovies, setShowInfoMovies] = useState<IShowInfoMovies>([]);
+  const [loading, setLoading] = useState(true);
   const { isTablet, isMobile } = useWindowSize();
 
   const displayCarousel = isTablet ? 2 : isMobile ? 1 : 4;
 
-  const getNextMoviesUpComing = (
-    lastIndex: number,
-    moviesUpComingLength: number
-  ) => {
-    if (lastIndex === moviesUpComingLength && hasMore) {
-      setLoadingUpComing(true);
+  const getNextMovies = (lastIndex: number, moviesLength: number) => {
+    if (lastIndex === moviesLength && hasMore) {
+      setLoading(true);
       api
         .get("/movie/upcoming", {
           params: {
@@ -38,39 +33,42 @@ const UpComing = () => {
           },
         })
         .then((res) => {
-          setMoviesUpComing((prevState) => [...prevState, ...res.data.results]);
+          setMovies((prevState) => [...prevState, ...res.data.results]);
           setPage(res.data.page);
           setHasMore(res.data.results.length < res.data.total_results);
-          setShowInfoMoviesUpComing((prevState) => [
+          setShowInfoMovies((prevState) => [
             ...prevState,
             ...res.data.results.map((movie: { id: number }, index: number) => ({
               id: movie ? movie.id : index,
               status: false,
             })),
           ]);
-          setLoadingUpComing(false);
+          setLoading(false);
         });
     }
   };
 
-  const findStatusMovie = (movies: IShowInfoMoviesUpComing, movie: IMovie) =>
+  const router = useRouter();
+
+  const findStatusMovie = (movies: IShowInfoMovies, movie: IMovie) =>
     movies.find((mv) => mv?.id === movie?.id)?.status;
 
   useEffect(() => {
     api.get("/movie/upcoming").then((res) => {
-      setMoviesUpComing(res.data.results);
+      setMovies(res.data.results);
       setPage(res.data.page);
       setHasMore(res.data.results.length < res.data.total_results);
-      setShowInfoMoviesUpComing(
+      setShowInfoMovies(
         res.data.results.map((movie: { id: number }, index: number) => ({
           id: movie ? movie.id : index,
           status: false,
         }))
       );
-      setLoadingUpComing(false);
+      setLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <h1 className="title">Lançamentos</h1>
@@ -80,22 +78,25 @@ const UpComing = () => {
         showThumbs={false}
         centerSlidePercentage={100 / displayCarousel}
         onChange={(index) => {
-          getNextMoviesUpComing(index, moviesUpComing.length - 1);
+          getNextMovies(index, movies.length - 1);
+        }}
+        onClickItem={(index) => {
+          router.push(`/movies/${movies[index]?.id}`);
         }}
       >
-        {moviesUpComing.map((movie, index, self) => (
+        {movies.map((movie, index, self) => (
           <div
             key={movie?.id}
             className={` me-5px transform-size-hover transform-hover position-relative ${
               movie &&
               index < self.length - 1 &&
-              findStatusMovie(showInfoMoviesUpComing, movie)
+              findStatusMovie(showInfoMovies, movie)
                 ? "h-260px"
                 : " "
             }`}
             role={index < self.length - 1 ? "button" : " "}
             onMouseOver={() => {
-              setShowInfoMoviesUpComing((prevStateInfos) =>
+              setShowInfoMovies((prevStateInfos) =>
                 prevStateInfos.map((prevStateInfo) => {
                   if (prevStateInfo?.id === movie?.id && movie)
                     return { id: movie?.id, status: true };
@@ -104,7 +105,7 @@ const UpComing = () => {
               );
             }}
             onMouseLeave={() => {
-              setShowInfoMoviesUpComing((prevStateInfos) =>
+              setShowInfoMovies((prevStateInfos) =>
                 prevStateInfos.map((prevStateInfo) => {
                   if (prevStateInfo?.id === movie?.id && movie)
                     return { id: movie?.id, status: false };
@@ -118,20 +119,20 @@ const UpComing = () => {
                 <Image
                   src="/blur.jpeg"
                   loader={() =>
-                    `https://image.tmdb.org/t/p/original${movie?.backdrop_path}`
+                    `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie?.backdrop_path}`
                   }
                   alt="thumbnail"
                   width={120}
                   priority
                   height={120}
                 />
-                {movie && findStatusMovie(showInfoMoviesUpComing, movie) && (
-                  <div className="transform-display-hover">
+                {movie && findStatusMovie(showInfoMovies, movie) && (
+                  <div className="transform-display-hover px-5">
                     <h2 className="fs-5 mb-0">{movie.title}</h2>
                     <h3 className="fs-6 mb-0">({movie.original_title})</h3>
                     <TextTruncate
                       line={2}
-                      element="span"
+                      element="small"
                       truncateText="…"
                       text={movie.overview}
                     />
@@ -140,7 +141,7 @@ const UpComing = () => {
               </>
             ) : (
               hasMore &&
-              loadingUpComing && (
+              loading && (
                 <div className="d-flex justify-content-center align-items-center h-150px w-100">
                   <ReactLoading type="spinningBubbles" height={60} width={60} />
                 </div>
@@ -153,4 +154,4 @@ const UpComing = () => {
   );
 };
 
-export default UpComing;
+export default MoviesUpComing;
