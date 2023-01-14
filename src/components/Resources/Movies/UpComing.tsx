@@ -16,8 +16,6 @@ const UpComing = () => {
   const [moviesUpComing, setMoviesUpComing] = useState<Array<null> | IMovies>(
     []
   );
-  const [totalPages, setTotalPages] = useState<number>();
-  const [totalResults, setTotalResults] = useState<number>();
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [showInfoMoviesUpComing, setShowInfoMoviesUpComing] =
@@ -41,9 +39,7 @@ const UpComing = () => {
         })
         .then((res) => {
           setMoviesUpComing((prevState) => [...prevState, ...res.data.results]);
-          setTotalPages(res.data.total_pages);
           setPage(res.data.page);
-          setTotalResults(res.data.total_results);
           setHasMore(res.data.results.length < res.data.total_results);
           setShowInfoMoviesUpComing((prevState) => [
             ...prevState,
@@ -63,9 +59,7 @@ const UpComing = () => {
   useEffect(() => {
     api.get("/movie/upcoming").then((res) => {
       setMoviesUpComing(res.data.results);
-      setTotalPages(res.data.total_pages);
       setPage(res.data.page);
-      setTotalResults(res.data.total_results);
       setHasMore(res.data.results.length < res.data.total_results);
       setShowInfoMoviesUpComing(
         res.data.results.map((movie: { id: number }, index: number) => ({
@@ -92,7 +86,7 @@ const UpComing = () => {
         {moviesUpComing.map((movie, index, self) => (
           <div
             key={movie?.id}
-            className={`d-flex align-items-center flex-wrap me-5px transform-size-hover transform-hover position-relative ${
+            className={` me-5px transform-size-hover transform-hover position-relative ${
               movie &&
               index < self.length - 1 &&
               findStatusMovie(showInfoMoviesUpComing, movie)
@@ -127,12 +121,12 @@ const UpComing = () => {
                     `https://image.tmdb.org/t/p/original${movie?.backdrop_path}`
                   }
                   alt="thumbnail"
-                  width={150}
+                  width={120}
                   priority
-                  height={150}
+                  height={120}
                 />
                 {movie && findStatusMovie(showInfoMoviesUpComing, movie) && (
-                  <div className="transform-display-hover z-index-3">
+                  <div className="transform-display-hover">
                     <h2 className="fs-5 mb-0">{movie.title}</h2>
                     <h3 className="fs-6 mb-0">({movie.original_title})</h3>
                     <TextTruncate
