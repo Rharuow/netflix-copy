@@ -128,7 +128,7 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
                       {...(movie && movie.backdrop_path
                         ? {
                             loader: () =>
-                              `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie?.backdrop_path}`,
+                              `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie.backdrop_path}`,
                           }
                         : {})}
                       alt="thumbnail"

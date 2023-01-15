@@ -17,7 +17,7 @@
 }
 
 .transform-hover {
-  transition: transform 0.8s;
+  transition: all 0.8s ease-out;
 }
 
 .transform-size-hover:hover {
@@ -27,5 +27,15 @@
 @for $i from 1 through 500 {
   .transform-translate-top-#{$i}px:hover {
     transform: translateY(-#{$i}px);
+  }
+
+  .transform-h-#{$i}px {
+    max-height: #{$i}px;
+    transition: max-height 0.8s ease-out;
+  }
+
+  .transform-h-#{$i}px-hover:hover {
+    max-height: #{$i}px;
+    transition: max-height 0.8s ease-in;
   }
 }

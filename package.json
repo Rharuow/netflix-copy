@@ -25,6 +25,7 @@
     "react-bootstrap": "^2.7.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.41.5",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-loading": "^2.0.3",
     "react-lottie": "^1.2.3",
     "react-responsive-carousel": "^3.2.23",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/js-cookie": "^3.0.2",
+    "@types/react-infinite-scroll-component": "^5.0.0",
     "@types/react-text-truncate": "^0.14.1"
   }
 }
