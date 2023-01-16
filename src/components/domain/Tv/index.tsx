@@ -29,7 +29,7 @@ const Tv = () => {
 
   return (
     <InfiniteScroll
-      dataLength={series.length} //This is important field to render the next data
+      dataLength={series.length}
       next={getPopularSeries}
       hasMore={totalPage >= page}
       loader={
