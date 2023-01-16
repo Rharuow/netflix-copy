@@ -10,13 +10,13 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="me-3 fw-bold">
-        <Link href="/most-popular" className="text-gray-600-hover">
-          Populares
+        <Link href="/tv" className="text-gray-600-hover">
+          Séries
         </Link>
       </div>
       <div className="me-3 fw-bold">
-        <Link href="#" className="text-gray-600-hover">
-          TV
+        <Link href="/most-popular" className="text-gray-600-hover">
+          Populares
         </Link>
       </div>
     </div>

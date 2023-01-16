@@ -2,72 +2,79 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import TextTruncate from "react-text-truncate";
 
-import { IMovies } from "../../../types/movies";
-import { IShowInfoMovies } from "../../Resources/Movies/movies";
-import { useWindowSize } from "../../../Hooks/windowsize";
+import { ISeries } from "../../types/series";
+import { IShowInfoMovies } from "../Resources/Movies/movies";
+import { useWindowSize } from "../../Hooks/windowsize";
+import { useRouter } from "next/router";
 
-const Movies: React.FC<{ movies: IMovies | Array<null> }> = ({ movies }) => {
+const TvSeries: React.FC<{ series: ISeries | Array<null> }> = ({ series }) => {
   const [showInfo, setShowInfo] = useState<IShowInfoMovies>([]);
 
   const { isMobile, isTablet } = useWindowSize();
 
+  const router = useRouter();
+
   useEffect(() => {
-    movies.length &&
+    series.length &&
       setShowInfo(
-        movies.map((movie, index) => ({
-          id: movie ? movie.id : index,
+        series.map((serie, index) => ({
+          id: serie ? serie.id : index,
           status: false,
         }))
       );
-  }, [movies]);
+  }, [series]);
 
   return (
     <div className="d-flex flex-wrap justify-content-around">
-      {movies.map((movie, index) => (
+      {series.map((serie, index) => (
         <div
           key={index}
           onMouseOver={() =>
             setShowInfo((prevState) =>
               prevState.map((info, index) => {
-                if (info?.id === movie?.id)
+                if (info?.id === serie?.id)
                   return { id: info ? info.id : index, status: true };
                 return info;
               })
             )
           }
+          role="button"
+          onClick={(index) => {
+            serie && router.push(`/tv/${serie.id}`);
+          }}
           onMouseLeave={() =>
             setShowInfo((prevState) =>
               prevState.map((info) => {
-                if (info?.id === movie?.id)
+                if (info?.id === serie?.id)
                   return { id: info ? info.id : index, status: false };
                 return info;
               })
             )
           }
-          className="d-flex mb-3 flex-column align-items-center transform-size-hover transform-h-280px-hover transform-hover"
+          className="d-flex mb-3 flex-column align-items-center transform-size-hover  transform-hover"
         >
           <Image
             src="/noSignal.jpg"
             alt="backdrop"
-            {...(movie && movie.backdrop_path
+            {...(serie && serie.backdrop_path
               ? {
                   loader: () =>
-                    `${process.env.NEXT_PUBLIC_PATH_IMAGE}${movie?.backdrop_path}`,
+                    `${process.env.NEXT_PUBLIC_PATH_IMAGE}${serie?.backdrop_path}`,
                 }
               : {})}
             width={290}
             height={290 * 0.5625}
           />
-          {((movie && showInfo.find((info) => info?.id === movie.id)?.status) ||
-            (movie && (isMobile || isTablet))) && (
+          {((serie && showInfo.find((info) => info?.id === serie.id)?.status) ||
+            (serie && (isMobile || isTablet))) && (
             <div className="d-flex flex-column align-items-center text-center flex-wrap w-230px mb-3">
-              <h2 className="fs-5 mb-0 mb-2">{movie?.title}</h2>
-              <h3 className="fs-6 mb-0">({movie?.original_title})</h3>
+              <h2 className="fs-5 mb-0 mb-2">{serie?.name}</h2>
+              <h3 className="fs-6 mb-0">({serie?.original_name})</h3>
               <TextTruncate
                 line={2}
                 element="small"
                 truncateText="…"
-                text={movie?.overview}
+                text={serie?.overview}
               />
             </div>
           )}
@@ -77,4 +84,4 @@ const Movies: React.FC<{ movies: IMovies | Array<null> }> = ({ movies }) => {
   );
 };
 
-export default Movies;
+export default TvSeries;

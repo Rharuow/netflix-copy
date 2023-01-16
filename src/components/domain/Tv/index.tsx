@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-
-import Movies from "../../InfinityScroll/Movies";
-
-import { api } from "../../../service/api";
-import { IMovies } from "../../../types/movies";
 import ReactLoading from "react-loading";
 
-const MostPopular = () => {
+import TvSeries from "../../InfinityScroll/Tv";
+import { api } from "../../../service/api";
+import { ISeries } from "../../../types/series";
+
+const Tv = () => {
   const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState<Array<null> | IMovies>([]);
+  const [series, setSeries] = useState<Array<null> | ISeries>([]);
 
   const [totalPage, setTotalPage] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
 
-  const getPopularMovies = () => {
-    api.get("/movie/popular", { params: { page } }).then((res) => {
-      setMovies((prevState) => [...prevState, ...res.data.results]);
+  const getPopularSeries = () => {
+    api.get("/tv/top_rated", { params: { page } }).then((res) => {
+      setSeries((prevState) => [...prevState, ...res.data.results]);
       setTotalPage(res.data.total_pages);
       setPage(res.data.page + 1);
       setLoading(false);
@@ -24,14 +23,14 @@ const MostPopular = () => {
   };
 
   useEffect(() => {
-    loading && getPopularMovies();
+    loading && getPopularSeries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <InfiniteScroll
-      dataLength={movies.length} //This is important field to render the next data
-      next={getPopularMovies}
+      dataLength={series.length} //This is important field to render the next data
+      next={getPopularSeries}
       hasMore={totalPage >= page}
       loader={
         <div className="d-flex justify-content-center align-items-center h-150px w-100">
@@ -40,13 +39,13 @@ const MostPopular = () => {
       }
       endMessage={
         <p style={{ textAlign: "center" }}>
-          <b>Todos os filmes foram carragos...</b>
+          <b>Todos as séries foram carregadas...</b>
         </p>
       }
     >
-      <Movies movies={movies} />
+      <TvSeries series={series} />
     </InfiniteScroll>
   );
 };
 
-export default MostPopular;
+export default Tv;
