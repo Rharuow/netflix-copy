@@ -132,11 +132,12 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
                           }
                         : {})}
                       alt="thumbnail"
-                      width={120}
+                      width={250}
                       priority
-                      height={120}
+                      height={250 * 0.6}
                     />
-                    {movie && findStatusMovie(showInfoMovies, movie) && (
+                    {((movie && findStatusMovie(showInfoMovies, movie)) ||
+                      (isMobile && movie)) && (
                       <div className="transform-display-hover px-5">
                         <h2 className="fs-5 mb-0">{movie.title}</h2>
                         <h3 className="fs-6 mb-0">({movie.original_title})</h3>

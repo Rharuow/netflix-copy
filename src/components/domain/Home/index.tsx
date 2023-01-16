@@ -38,7 +38,7 @@ const Home: React.FC = () => {
           {movie && (
             <Cover imageUrl={movie.backdrop_path} margin="-16px 0 32px -16px">
               <Background>
-                <div className="d-flex p-3 flex-wrap flex-column-reverse h-100">
+                <div className="d-flex p-3 flex-wrap flex-column-reverse min-h-100vh max-w-100">
                   {!movie.adult && (
                     <div>
                       <AlertAge />

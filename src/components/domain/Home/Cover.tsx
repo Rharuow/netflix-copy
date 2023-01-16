@@ -10,7 +10,7 @@ const Cover = styled("div")<{
   background-repeat: no-repeat;
   width: calc(100% + 32px);
   margin: ${(props) => props.margin || "-16px 0 0 -16px"};
-  height: calc(100vh - 100px); ;
+  min-height: calc(100vh - 100px);
 `;
 
 export default Cover;

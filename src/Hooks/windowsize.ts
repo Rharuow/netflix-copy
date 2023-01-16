@@ -21,6 +21,7 @@ export function useWindowSize() {
         width: window.innerWidth,
         height: window.innerHeight,
       });
+      console.log(window.innerWidth);
       setIsMobile(window.innerWidth <= 425);
       setIsTablet(window.innerWidth > 425 && window.innerWidth <= 768);
     }
