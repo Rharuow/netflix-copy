@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useWindowSize } from "../../../../Hooks/windowsize";
 import { api } from "../../../../service/api";
@@ -9,8 +8,6 @@ const MovieSHow: React.FC<{ id: number }> = ({ id }) => {
   const [movie, setMovie] = useState<IMovieDetails | undefined>();
 
   const { windowSize } = useWindowSize();
-
-  console.log(windowSize);
 
   useEffect(() => {
     api.get(`/movie/${id}`).then((res) => {
@@ -38,7 +35,7 @@ const MovieSHow: React.FC<{ id: number }> = ({ id }) => {
           backgroundPosition: "center",
         }}
       >
-        {!movie?.adult && (
+        {movie?.adult && (
           <div className="mb-3">
             <AlertAge />
           </div>

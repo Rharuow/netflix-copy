@@ -8,7 +8,7 @@ const NavbarComponent = () => {
   const router = useRouter();
 
   return (
-    <Navbar variant="dark" expand="lg" className="w-100 justify-content-end ">
+    <Navbar variant="dark" expand="md" className="w-100 justify-content-end ">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="">

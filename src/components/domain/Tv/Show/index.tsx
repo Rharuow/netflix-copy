@@ -1,11 +1,15 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { useWindowSize } from "../../../../Hooks/windowsize";
 
 import { api } from "../../../../service/api";
 import { ISerieDetails } from "../../../../types/series";
+import AlertAge from "../../../AlertAge";
 
 const SerieShow: React.FC<{ id: number }> = ({ id }) => {
   const [serie, setSerie] = useState<ISerieDetails | undefined>();
+
+  const { windowSize } = useWindowSize();
 
   useEffect(() => {
     api.get(`/tv/${id}`).then((res) => {
@@ -19,21 +23,26 @@ const SerieShow: React.FC<{ id: number }> = ({ id }) => {
         <h1 className="fs-2">{serie?.name}</h1>
         <h2 className="fs-6">({serie?.original_name})</h2>
       </div>
-      <Image
-        style={{ objectFit: "contain" }}
-        src="/blur-poster.jpg"
-        {...(serie && serie.poster_path
-          ? {
-              loader: () =>
-                `${process.env.NEXT_PUBLIC_PATH_IMAGE}${serie?.poster_path}`,
-            }
-          : {})}
-        alt="thumbnail"
-        width={409}
-        height={602}
-        priority
-        className="mb-3"
-      />
+      <div
+        className="d-flex justify-content-around align-items-end"
+        style={{
+          height: windowSize.height * 0.6454,
+          width: windowSize.width * 0.6454,
+          backgroundImage:
+            serie && serie.poster_path
+              ? `url(${process.env.NEXT_PUBLIC_PATH_IMAGE}${serie?.poster_path})`
+              : "/blur-poster.jpg",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
+        {serie?.adult && (
+          <div className="mb-3">
+            <AlertAge />
+          </div>
+        )}
+      </div>
       <div className="d-flex">
         <p>{serie?.overview}</p>
       </div>

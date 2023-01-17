@@ -4,7 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Movies from "../../InfinityScroll/Movies";
 
 import { api } from "../../../service/api";
-import { IMovies } from "../../../types/movies";
+import { IMovie, IMovies } from "../../../types/movies";
 import ReactLoading from "react-loading";
 
 const MostPopular = () => {
@@ -16,7 +16,13 @@ const MostPopular = () => {
 
   const getPopularMovies = () => {
     api.get("/movie/popular", { params: { page } }).then((res) => {
-      setMovies((prevState) => [...prevState, ...res.data.results]);
+      setMovies((prevState) => {
+        const newMovies = res.data.results.filter((result: IMovie) =>
+          prevState.every((movie: IMovie) => movie.id !== result.id)
+        );
+        return [...prevState, ...newMovies];
+      });
+      // setMovies((prevState) => [...prevState, ...res.data.results]);
       setTotalPage(res.data.total_pages);
       setPage(res.data.page + 1);
       setLoading(false);

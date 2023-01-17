@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ReactLoading from "react-loading";
 
 import TvSeries from "../../InfinityScroll/Tv";
 import { api } from "../../../service/api";
-import { ISeries } from "../../../types/series";
+import { ISerie, ISeries } from "../../../types/series";
 
 const Tv = () => {
   const [loading, setLoading] = useState(true);
@@ -15,7 +16,12 @@ const Tv = () => {
 
   const getPopularSeries = () => {
     api.get("/tv/top_rated", { params: { page } }).then((res) => {
-      setSeries((prevState) => [...prevState, ...res.data.results]);
+      setSeries((prevState) => {
+        const newSeries = res.data.results.filter((result: ISerie) =>
+          prevState.every((serie: ISerie) => serie.id !== result.id)
+        );
+        return [...prevState, ...newSeries];
+      });
       setTotalPage(res.data.total_pages);
       setPage(res.data.page + 1);
       setLoading(false);
@@ -24,27 +30,34 @@ const Tv = () => {
 
   useEffect(() => {
     loading && getPopularSeries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [series]);
 
   return (
-    <InfiniteScroll
-      dataLength={series.length}
-      next={getPopularSeries}
-      hasMore={totalPage >= page}
-      loader={
+    <>
+      {loading ? (
         <div className="d-flex justify-content-center align-items-center h-150px w-100">
           <ReactLoading type="spinningBubbles" height={60} width={60} />
         </div>
-      }
-      endMessage={
-        <p style={{ textAlign: "center" }}>
-          <b>Todos as séries foram carregadas...</b>
-        </p>
-      }
-    >
-      <TvSeries series={series} />
-    </InfiniteScroll>
+      ) : (
+        <InfiniteScroll
+          dataLength={series.length}
+          next={getPopularSeries}
+          hasMore={totalPage >= page}
+          loader={
+            <div className="d-flex justify-content-center align-items-center h-150px w-100">
+              <ReactLoading type="spinningBubbles" height={60} width={60} />
+            </div>
+          }
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Todos as séries foram carregadas...</b>
+            </p>
+          }
+        >
+          <TvSeries series={series} />
+        </InfiniteScroll>
+      )}
+    </>
   );
 };
 
