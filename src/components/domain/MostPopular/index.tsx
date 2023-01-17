@@ -9,7 +9,7 @@ import ReactLoading from "react-loading";
 
 const MostPopular = () => {
   const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState<Array<null> | IMovies>([]);
+  const [movies, setMovies] = useState<IMovies>([]);
 
   const [totalPage, setTotalPage] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
@@ -22,7 +22,6 @@ const MostPopular = () => {
         );
         return [...prevState, ...newMovies];
       });
-      // setMovies((prevState) => [...prevState, ...res.data.results]);
       setTotalPage(res.data.total_pages);
       setPage(res.data.page + 1);
       setLoading(false);

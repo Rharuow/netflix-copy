@@ -9,7 +9,7 @@ import { ISerie, ISeries } from "../../../types/series";
 
 const Tv = () => {
   const [loading, setLoading] = useState(true);
-  const [series, setSeries] = useState<Array<null> | ISeries>([]);
+  const [series, setSeries] = useState<ISeries>([]);
 
   const [totalPage, setTotalPage] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
