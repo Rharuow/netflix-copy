@@ -69,7 +69,7 @@ const SerieShow: React.FC<{ id: number }> = ({ id }) => {
       )}
       {serie?.genres && serie?.genres.length > 0 && (
         <div className="w-100">
-          <h3>Genero{serie?.genres.length > 1 ? "s:" : ":"}</h3>
+          <h3>Gênero{serie?.genres.length > 1 ? "s:" : ":"}</h3>
           <ol>
             {serie?.genres.map((genre) => (
               <li key={genre.name}>{genre.name}</li>
