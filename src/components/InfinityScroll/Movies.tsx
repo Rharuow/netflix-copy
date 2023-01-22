@@ -51,7 +51,7 @@ const Movies: React.FC<{ movies: IMovies | Array<null> }> = ({ movies }) => {
               })
             )
           }
-          className="d-flex mb-3 flex-column align-items-center transform-size-hover  transform-hover"
+          className="d-flex mb-3 flex-column align-items-center animation-card-scroll"
         >
           <Image
             src="/noSignal.jpg"
@@ -65,8 +65,7 @@ const Movies: React.FC<{ movies: IMovies | Array<null> }> = ({ movies }) => {
             width={290}
             height={290 * 0.5625}
           />
-          {((movie && showInfo.find((info) => info?.id === movie.id)?.status) ||
-            (movie && (isMobile || isTablet))) && (
+          {movie && (
             <div className="d-flex flex-column align-items-center text-center flex-wrap w-230px mb-3">
               <h2 className="fs-5 mb-0 mb-2">{movie?.title}</h2>
               <h3 className="fs-6 mb-0">({movie?.original_title})</h3>

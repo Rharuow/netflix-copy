@@ -94,13 +94,7 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
             {movies.map((movie, index, self) => (
               <div
                 key={movie?.id}
-                className={` me-5px transform-size-hover transform-hover position-relative ${
-                  movie &&
-                  index < self.length - 1 &&
-                  findStatusMovie(showInfoMovies, movie)
-                    ? "h-260px"
-                    : " "
-                }`}
+                className="me-5px animation-card-slider"
                 role={index < self.length - 1 ? "button" : " "}
                 onMouseOver={() => {
                   setShowInfoMovies((prevStateInfos) =>
@@ -136,13 +130,12 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
                       priority
                       height={250 * 0.6}
                     />
-                    {((movie && findStatusMovie(showInfoMovies, movie)) ||
-                      (isMobile && movie)) && (
-                      <div className="transform-display-hover px-5">
+                    {movie && (
+                      <div className="px-5">
                         <h2 className="fs-5 mb-0">{movie.title}</h2>
                         <h3 className="fs-6 mb-0">({movie.original_title})</h3>
                         <TextTruncate
-                          line={2}
+                          line={3}
                           element="small"
                           truncateText="…"
                           text={movie.overview}

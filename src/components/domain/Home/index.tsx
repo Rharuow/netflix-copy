@@ -63,12 +63,12 @@ const Home: React.FC = () => {
               </Background>
             </Cover>
           )}
-          <div className="mb-3">
+          <div className="my-5 px-5">
             <UpComing />
           </div>
           {genres.length > 0 &&
             genres.map((genre) => (
-              <div key={genre?.id} className="mb-3">
+              <div key={genre?.id} className="my-5 px-5">
                 <MoviesByGenre title={genre?.name} genre_id={genre?.id} />
               </div>
             ))}

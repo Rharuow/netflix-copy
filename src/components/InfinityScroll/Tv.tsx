@@ -51,7 +51,7 @@ const TvSeries: React.FC<{ series: ISeries | Array<null> }> = ({ series }) => {
               })
             )
           }
-          className="d-flex mb-3 flex-column align-items-center transform-size-hover  transform-hover"
+          className="d-flex mb-3 flex-column align-items-center animation-card-scroll"
         >
           <Image
             src="/noSignal.jpg"
@@ -65,8 +65,7 @@ const TvSeries: React.FC<{ series: ISeries | Array<null> }> = ({ series }) => {
             width={290}
             height={290 * 0.5625}
           />
-          {((serie && showInfo.find((info) => info?.id === serie.id)?.status) ||
-            (serie && (isMobile || isTablet))) && (
+          {serie && (
             <div className="d-flex flex-column align-items-center text-center flex-wrap w-230px mb-3">
               <h2 className="fs-5 mb-0 mb-2">{serie?.name}</h2>
               <h3 className="fs-6 mb-0">({serie?.original_name})</h3>
