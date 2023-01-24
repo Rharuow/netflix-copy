@@ -7,15 +7,13 @@ import TextTruncate from "react-text-truncate";
 
 import { useWindowSize } from "../../../Hooks/windowsize";
 import { api } from "../../../service/api";
-import { IMovie, IMovies } from "../../../types/movies";
-import { IShowInfoMovies } from "./movies";
+import { IMovies } from "../../../types/movies";
 
 const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
   endPoint = "/movie/upcoming",
   params = {},
 }) => {
   const [movies, setMovies] = useState<Array<null> | IMovies>([]);
-  const [showInfoMovies, setShowInfoMovies] = useState<IShowInfoMovies>([]);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -25,9 +23,6 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
   const { isTablet, isMobile } = useWindowSize();
 
   const displayCarousel = isTablet ? 2 : isMobile ? 1 : 4;
-
-  const findStatusMovie = (movies: IShowInfoMovies, movie: IMovie) =>
-    movies.find((mv) => mv?.id === movie?.id)?.status;
 
   const getNextMovies = (lastIndex: number, moviesLength: number) => {
     if (lastIndex === moviesLength && hasMore) {
@@ -43,13 +38,6 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
           setMovies((prevState) => [...prevState, ...res.data.results]);
           setPage(res.data.page);
           setHasMore(res.data.results.length < res.data.total_results);
-          setShowInfoMovies((prevState) => [
-            ...prevState,
-            ...res.data.results.map((movie: { id: number }, index: number) => ({
-              id: movie ? movie.id : index,
-              status: false,
-            })),
-          ]);
           setLoading(false);
         });
     }
@@ -60,12 +48,6 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
       setMovies(res.data.results);
       setPage(res.data.page);
       setHasMore(res.data.results.length < res.data.total_results);
-      setShowInfoMovies(
-        res.data.results.map((movie: { id: number }, index: number) => ({
-          id: movie ? movie.id : index,
-          status: false,
-        }))
-      );
       setLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,24 +78,6 @@ const Movies: React.FC<{ endPoint?: string; params?: {} }> = ({
                 key={movie?.id}
                 className="me-5px animation-card-slider"
                 role={index < self.length - 1 ? "button" : " "}
-                onMouseOver={() => {
-                  setShowInfoMovies((prevStateInfos) =>
-                    prevStateInfos.map((prevStateInfo) => {
-                      if (prevStateInfo?.id === movie?.id && movie)
-                        return { id: movie?.id, status: true };
-                      return prevStateInfo;
-                    })
-                  );
-                }}
-                onMouseLeave={() => {
-                  setShowInfoMovies((prevStateInfos) =>
-                    prevStateInfos.map((prevStateInfo) => {
-                      if (prevStateInfo?.id === movie?.id && movie)
-                        return { id: movie?.id, status: false };
-                      return prevStateInfo;
-                    })
-                  );
-                }}
               >
                 {index < self.length - 1 ? (
                   <>
