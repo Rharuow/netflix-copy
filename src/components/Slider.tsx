@@ -5,6 +5,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import style from "./Slider.module.scss";
 
 const Slider: React.FC<{
   centered?: boolean;
@@ -14,18 +15,9 @@ const Slider: React.FC<{
 }> = ({ centered = false, sizeButtons = 10, show = 1, children }) => {
   const className = classNames({ "justify-content-center": centered });
 
-  const elementsToShow = new Array<any>(show).fill(null);
-
   return (
-    <div
-      className={`d-flex position-relative ${className}`}
-      style={{
-        overflowX: "hidden",
-        transition: "transform 0.7s ease-in-out",
-        minWidth: "100%",
-      }}
-    >
-      {/* <div
+    <div className={`${style["slider-container"]} ${className}`}>
+      <div
         className={`position-absolute start-0 h-100 w-${sizeButtons}px`}
         style={{ backgroundColor: "rgba(0,0,0,0.2)", zIndex: 10 }}
       >
@@ -35,19 +27,17 @@ const Slider: React.FC<{
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </div>
-      </div> */}
+      </div>
       {children.map((child, index) => (
         <div
-          className={` `}
+          className={style["slider-item"]}
           key={index}
-          style={{
-            ...(index === 0 && { flex: "0 0 auto", width: "100%" }),
-          }}
+          style={{ flex: "0 0 auto", width: `${100 / show}%` }}
         >
           {child}
         </div>
       ))}
-      {/* <div
+      <div
         className={`position-absolute end-0 h-100 w-${sizeButtons}px`}
         style={{ backgroundColor: "rgba(0,0,0,0.2)", zIndex: 10 }}
       >
@@ -57,7 +47,7 @@ const Slider: React.FC<{
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

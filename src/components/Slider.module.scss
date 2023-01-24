@@ -1,0 +1,13 @@
+.slider-container {
+  display: flex;
+  position: relative;
+  overflow-x: hidden;
+  transition: transform 0.7s ease-in-out;
+  min-width: 100%;
+
+  .slider-item {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10px;
+  }
+}
