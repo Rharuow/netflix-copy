@@ -35,8 +35,8 @@ const MaterialDesign = () => {
       <Slider>
         {items.map((item, index) => {
           return (
-            <Card key={index} className="ms-2">
-              <Card.Body>{item.description}</Card.Body>
+            <Card key={index}>
+              <Card.Body className="text-dark">{item.description}</Card.Body>
             </Card>
           );
         })}

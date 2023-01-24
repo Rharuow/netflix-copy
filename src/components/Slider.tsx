@@ -11,7 +11,7 @@ const Slider: React.FC<{
   children: JSX.Element[];
   show?: number;
   sizeButtons?: number;
-}> = ({ centered = true, sizeButtons = 10, show = 1, children }) => {
+}> = ({ centered = false, sizeButtons = 10, show = 1, children }) => {
   const className = classNames({ "justify-content-center": centered });
 
   const elementsToShow = new Array<any>(show).fill(null);
@@ -22,9 +22,10 @@ const Slider: React.FC<{
       style={{
         overflowX: "hidden",
         transition: "transform 0.7s ease-in-out",
+        minWidth: "100%",
       }}
     >
-      <div
+      {/* <div
         className={`position-absolute start-0 h-100 w-${sizeButtons}px`}
         style={{ backgroundColor: "rgba(0,0,0,0.2)", zIndex: 10 }}
       >
@@ -34,9 +35,19 @@ const Slider: React.FC<{
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </div>
-      </div>
-      <div className="d-flex w-100">{children}</div>
-      <div
+      </div> */}
+      {children.map((child, index) => (
+        <div
+          className={` `}
+          key={index}
+          style={{
+            ...(index === 0 && { flex: "0 0 auto", width: "100%" }),
+          }}
+        >
+          {child}
+        </div>
+      ))}
+      {/* <div
         className={`position-absolute end-0 h-100 w-${sizeButtons}px`}
         style={{ backgroundColor: "rgba(0,0,0,0.2)", zIndex: 10 }}
       >
@@ -46,7 +57,7 @@ const Slider: React.FC<{
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
