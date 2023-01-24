@@ -31,16 +31,35 @@ const MaterialDesign = () => {
   ];
 
   return (
-    <div className="w-50">
-      <Slider>
-        {items.map((item, index) => {
-          return (
-            <Card key={index}>
-              <Card.Body className="text-dark">{item.description}</Card.Body>
-            </Card>
-          );
-        })}
-      </Slider>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-6">
+          <Slider>
+            {items.map((item, index) => {
+              return (
+                <Card key={index}>
+                  <Card.Body className="text-dark">
+                    {item.description}
+                  </Card.Body>
+                </Card>
+              );
+            })}
+          </Slider>
+        </div>
+        <div className="col-6">
+          <Slider>
+            {items.map((item, index) => {
+              return (
+                <Card key={index}>
+                  <Card.Body className="text-dark">
+                    {item.description}
+                  </Card.Body>
+                </Card>
+              );
+            })}
+          </Slider>
+        </div>
+      </div>
     </div>
   );
 };
